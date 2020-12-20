@@ -10,7 +10,7 @@ resource "aws_iam_user" "user" {
 
 # generate keys for service account user
 resource "aws_iam_access_key" "user_keys" {
-  user = "${aws_iam_user.user.name}"
+  user = aws_iam_user.user.name
 }
 
 # create an s3 bucket
