@@ -15,32 +15,32 @@ resource "aws_iam_access_key" "user_keys" {
 
 # create an s3 bucket
 resource "aws_s3_bucket" "bucket" {
-  bucket        = "${var.bucket_name}"
+  bucket        = var.bucket_name
   force_destroy = "true"
 
   versioning {
-    enabled = "${var.versioning}"
+    enabled = var.versioning
   }
 
   tags = {
-    team          = "${var.tag_team}"
-    application   = "${var.tag_application}"
-    environment   = "${var.tag_environment}"
-    contact-email = "${var.tag_contact-email}"
-    customer      = "${var.tag_customer}"
+    team          = var.tag_team
+    application   = var.tag_application
+    environment   = var.tag_environment
+    contact-email = var.tag_contact-email
+    customer      = var.tag_customer
   }
 
     lifecycle_rule {
       id                                     = "auto-delete-incomplete-after-x-days"
       prefix                                 = ""
-      enabled                                = "${var.multipart_delete}"
-      abort_incomplete_multipart_upload_days = "${var.multipart_days}"
+      enabled                                = var.multipart_delete
+      abort_incomplete_multipart_upload_days = var.multipart_days
     }
 }
 
 # grant user access to the bucket
 resource "aws_s3_bucket_policy" "bucket_policy" {
-  bucket = "${aws_s3_bucket.bucket.id}"
+  bucket = aws_s3_bucket.bucket.id
 
   policy = <<EOF
 {
